@@ -28,6 +28,7 @@ const pickupTask=(e,taskIndex,fromColumnInx)=>{
 
   e.dataTransfer.setData('task-index',taskIndex);
   e.dataTransfer.setData('from-column-index',fromColumnInx);
+  e.dataTransfer.setData('type','task');
 
 }
 const moveTask=(e,toColumnInx)=>{
@@ -36,6 +37,28 @@ const moveTask=(e,toColumnInx)=>{
 
   store.moveTask(fromColumnInx,toColumnInx,taskIndex);
 }
+
+const pickupColumn=(e,fromColumnInx)=>{
+  e.dataTransfer.effectAllowed='move';
+  e.dataTransfer.dropEffect='move';
+
+  e.dataTransfer.setData('from-column-index',fromColumnInx);
+  e.dataTransfer.setData('type','column');
+
+}
+const moveColumn=(e,toColumnInx)=>{
+  const fromColumnInx=e.dataTransfer.getData('from-column-index');
+
+  store.moveColumn(fromColumnInx,toColumnInx);
+}
+const moveTaskOrColumn=(e,toColumnInx)=>{
+  const type=e.dataTransfer.getData('type');
+  if(type==='task'){
+    moveTask(e,toColumnInx);
+  } else {
+    moveColumn(e,toColumnInx);
+  }
+}
 </script>
 
 <template>
@@ -43,7 +66,9 @@ const moveTask=(e,toColumnInx)=>{
     <div class="bg-gray-200 p-2 mr-4 shadow rounded min-w-[350px]"
          v-for="(column,$columnIndex) in store.board.columns"
          :key="column.name"
-         @drop="moveTask($event,$columnIndex)"
+         draggable="true"
+         @dragstart.self="pickupColumn($event,$columnIndex)"
+         @drop="moveTaskOrColumn($event,$columnIndex)"
          @dragover.prevent
          @dragenter.prevent
     >
@@ -54,7 +79,8 @@ const moveTask=(e,toColumnInx)=>{
              :key="task.id"
              draggable="true"
              @dragstart="pickupTask($event,$taskIndex,$columnIndex)"
-
+             @dragover.prevent
+             @dragenter.prevent
              @click="goToTask(task.id)">
           <span class="w-full font-bold">{{ task.name }}</span>
           <p v-if="task.description" class="w-full mt-1 text-sm">{{ task.description }}</p>
