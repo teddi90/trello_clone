@@ -6,6 +6,7 @@ import {useRoute, useRouter} from "vue-router";
 const store = useBoardStore();
 const route = useRoute();
 const router = useRouter();
+const newColumnName=ref('');
 store.$subscribe((mutation, state) => {
   localStorage.setItem('board', JSON.stringify(state.board))
 })
@@ -21,6 +22,10 @@ const close=()=>{
 const createTask=(event, columnIndex)=>{
   store.createTask(columnIndex,event.target.value);
   event.target.value='';
+}
+const createColumn=()=>{
+  store.createColumn(newColumnName.value);
+  newColumnName.value='';
 }
 const pickupTask=(e,taskIndex,fromColumnInx)=>{
   e.dataTransfer.effectAllowed='move';
@@ -92,6 +97,13 @@ const moveTaskOrColumn=(e, toColumnInx, toTaskInx)=>{
 
         />
       </div>
+    </div>
+    <div class="bg-gray-200 p-2 mr-4 shadow rounded min-w-[350px]">
+      <input @keyup.enter="createColumn()"
+             v-model="newColumnName"
+             type="text" class="block p-2 w-full bg-transparent focus:outline-none" placeholder="+ New column name"
+
+      />
     </div>
     <div class="absolute inset-0 bg-black bg-opacity-70 h-full w-full"
       v-if="isTaskOpen"

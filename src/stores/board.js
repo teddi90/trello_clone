@@ -14,6 +14,12 @@ export const useBoardStore = defineStore('board', () => {
       description:'',
     });
   }
+  const createColumn=(name)=>{
+    board.value.columns.push({
+      name,
+      tasks:[],
+    })
+  }
   const updateTask=(task,key,value)=>{
     let columnIndex;
     let taskIndex;
@@ -50,5 +56,5 @@ export const useBoardStore = defineStore('board', () => {
       }
   };
 
-  return { board, getTask, createTask,updateTask,moveTask,moveColumn}
+  return { board, getTask, createTask, updateTask, moveTask, moveColumn, createColumn}
 })
