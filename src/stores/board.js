@@ -31,9 +31,9 @@ export const useBoardStore = defineStore('board', () => {
     board.value.columns[columnIndex].tasks[taskIndex][key]=value;
   }
 
-  const moveTask=(fromColumnInx, toColumnInx, taskIndex)=>{
-    const taskToMove= board.value.columns[fromColumnInx].tasks.splice(taskIndex,1)[0];
-    board.value.columns[toColumnInx].tasks.push(taskToMove);
+  const moveTask=(fromColumnInx, toColumnInx, fromTaskIndex, toTaskInx)=>{
+    const taskToMove= board.value.columns[fromColumnInx].tasks.splice(fromTaskIndex,1)[0];
+    board.value.columns[toColumnInx].tasks.splice(toTaskInx,0,taskToMove);
   }
 
   const moveColumn=(fromColumnInx, toColumnInx)=>{
