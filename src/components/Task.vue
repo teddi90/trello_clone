@@ -21,13 +21,14 @@ const updateTask=(task,e,key)=>{
 <template>
   <div class="relative flex flex-row bg-white max-w-[800px] px-3 py-4 my-32 mx-auto rounded">
     <div class="flex flex-col flex-grow items-start justify-between mb-2">
-      <input type="text" class="p-2 mr-2 flex-grow text-xl w-full font-bold"
+      <input type="text" class="p-2 mr-2 flex-grow text-xl w-full font-bold focus:outline-none"
       :value="task.name"
              @change="updateTask(task,$event,'name')"
       />
       <textarea :value="task.description"
                 @change="updateTask(task, $event,'description')"
-                class="relative bg-transparent px-2 border-none h-64 leading-normal w-full"
+                class="relative bg-transparent px-2 border-none h-64 leading-normal w-full focus:outline-none"
+                placeholder="Write task description here..."
       />
     </div>
 
