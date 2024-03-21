@@ -37,7 +37,7 @@ const createColumn=()=>{
              type="text" class="block p-2 w-full bg-transparent focus:outline-none" placeholder="+ Add new column"
       />
     </div>
-    <div class="absolute inset-0 bg-black bg-opacity-70 h-full w-full"
+    <div class="fixed inset-0 bg-black bg-opacity-70 h-full w-full"
       v-if="isTaskOpen"
       @click.self="close">
       <RouterView/>
